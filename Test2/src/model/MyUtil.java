@@ -19,7 +19,7 @@ public class MyUtil
 		pw.println(" return false; } ");
 		pw.println("</script></head>");
 		pw.println("<BODY TEXT=#FFFFFF BGCOLOR=#000000 link=#00FFFF vlink=#CCFF33 alink=#FFCCFF ><font size=2>");
-		pw.println("<h3> Welcome To EC2 </h3>");
+		pw.println("<h3> Welcome To Library </h3>");
 	} 
 	
 	public static void printMemberHead(PrintWriter pw, String name) 
@@ -27,11 +27,11 @@ public class MyUtil
 		pw.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">");
 		pw.println("<head>");
 		pw.println("<content=\"text/html; charset=Big5\">");
-		pw.println("<title>EC2</title>");
+		pw.println("<title>Library</title>");
 		pw.println("<h3>" + name + "</h3>");
 		pw.println("</head>");
 		pw.println("<BODY TEXT=#FFFFFF BGCOLOR=#000000>");
-		pw.println("<h3> Welcome To EC2 </h3>");
+		pw.println("<h3> Welcome To Library </h3>");
 	}
 	
 	public static void printRow(PrintWriter pw, String s1, String s2, String s3) 

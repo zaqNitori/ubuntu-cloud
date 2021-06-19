@@ -34,6 +34,12 @@ public class Query extends HttpServlet
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		// TODO Auto-generated method stub
+		HttpSession session = request.getSession(true);
+		response.setLocale(new Locale(new String("zh"), new String("TW")));
+		response.setContentType("text/html");
+		PrintWriter pw = response.getWriter();
+		String usrName = (String)session.getAttribute("user");
+		MyUtil.printMemberHead(pw, usrName);
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -48,16 +54,17 @@ public class Query extends HttpServlet
 		response.setLocale(new Locale(new String("zh"), new String("TW")));
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
-		MyUtil.printHead(pw);
-		Customer customer = (Customer)session.getAttribute("customer");
-		if (customer==null) response.sendRedirect("Login");
-		else {
-		pw.println("<form action = QueryResult.jsp method=POST name=FORM1>");
-		pw.println("Query Title : <input type = text name = title><br><br>");
-		pw.println("<br><br><input type = submit onClick=\"return checkOneStr(FORM1.title.value);\" name=submit value=Submit>");
-		pw.println("</form>");
-		pw.println("<br><br><a href=menu><input type=button value=menu name=B1><br>");
-		pw.println("</body></html>");
+		String usrName = (String)session.getAttribute("user");
+		MyUtil.printMemberHead(pw, usrName);
+		if (usrName == null) response.sendRedirect("Login");
+		else 
+		{
+			pw.println("<form action = QueryResult.jsp method=POST name=FORM1>");
+			pw.println("Query Title : <input type = text name = title><br><br>");
+			pw.println("<br><br><input type = submit onClick=\"return checkOneStr(FORM1.title.value);\" name=submit value=Submit>");
+			pw.println("</form>");
+			pw.println("<br><br><a href=menu><input type=button value=menu name=B1><br>");
+			pw.println("</body></html>");
 		}
 	}
 

@@ -36,7 +36,7 @@ public class DBCon
 		try 
 		{
 			Class.forName(jdbcName); //載入jdbc驅動程式
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ec2?" + "user=107590026&password=zaq78963"); //驅動程式管理器，取得mysql連線
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library?" + "user=107590026&password=zaq78963"); //驅動程式管理器，取得mysql連線
 		}catch (Exception e) 
 		{
 			e.printStackTrace();
@@ -71,14 +71,15 @@ public class DBCon
 		ResultSet hrs;
 		DBCon dbc = new DBCon();
 		dbc.connect();
-		hrs = dbc.exec("Select * from customer");
+		hrs = dbc.exec("Select * from User");
 		
 		try
 		{
+			if(hrs == null) return false;
 			while(hrs.next())
 			{
-				name = hrs.getString("name");
-				passwd = hrs.getString("passwd");
+				name = hrs.getString("account");
+				passwd = hrs.getString("password");
 				map.put(name, passwd);
 			}
 		}
@@ -93,6 +94,22 @@ public class DBCon
 		passwd = map.get(cname);
 		if(passwd != null && cpasswd.compareTo(passwd) == 0) return true;
 		else return false;
+	}
+	
+	public void update(String sql)
+	{
+		
+		try
+		{
+			pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			pstmt.executeUpdate(sql);
+		}
+		catch(SQLException ex)
+		{
+			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println("SQLState: " + ex.getSQLState());
+			System.out.println("VendorEror: " + ex.getErrorCode());
+		}
 	}
 	
 	public ResultSet exec(String sql)

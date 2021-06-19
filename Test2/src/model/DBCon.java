@@ -37,6 +37,7 @@ public class DBCon
 		{
 			Class.forName(jdbcName); //載入jdbc驅動程式
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library?" + "user=107590026&password=zaq78963"); //驅動程式管理器，取得mysql連線
+			//con = DriverManager.getConnection("jdbc:mysql://140.124.184.211/library?" + "user=107590026&password=zaq78963");
 		}catch (Exception e) 
 		{
 			e.printStackTrace();

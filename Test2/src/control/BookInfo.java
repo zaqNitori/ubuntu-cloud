@@ -15,12 +15,12 @@ import view.*;
 /** Servlet implementation class Login */
 @WebServlet("/BookInfo")
 
-public class Login extends HttpServlet 
+public class BookInfo extends HttpServlet 
 {
 	
 	private static final long serialVersionUID = 1L;
 	/** @see HttpServlet#HttpServlet() */
-	public Login() 
+	public BookInfo() 
 	{
 		super(); // TODO Auto-generated constructor stub
 	}
@@ -42,28 +42,6 @@ public class Login extends HttpServlet
 	/** @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response) */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		// TODO Auto-generated method stub
-		HttpSession session = request.getSession(true);
-		String userName = request.getParameter("name");
-		String userPasswd = request.getParameter("passwd");
-		DBCon dbc = new DBCon();
-		PrintWriter pw = response.getWriter();
-		Boolean b = dbc.check(userName, userPasswd);
-		MyUtil.printHead(pw);
 		
-		if (b==true) 
-		{
-			pw.println("name:" + userName + ", password:" + userPasswd);
-			session.setAttribute("user", userName);
-			session.setAttribute("action", "Login");
-			response.sendRedirect("menu");
-		}
-		else 
-		{
-				
-			session.setAttribute("action", "error");
-			response.sendRedirect("Login");
-		}
-		pw.close(); 
 	}
 }

@@ -33,6 +33,9 @@ public class Login extends HttpServlet
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
 		MyUtil.printHead(pw);
+		HttpSession session = request.getSession(true);
+		if((String)session.getAttribute("action") == "Register")
+			MyUtil.printAlert(pw, "Register Success!");
 		pw.println("<form action = Login method=POST name=FORM1>");
 		pw.println("name : <input type = text name = name><br><br>");
 		pw.println("passwd: <input type = password name = passwd><br><br>");

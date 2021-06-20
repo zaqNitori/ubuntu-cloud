@@ -54,6 +54,7 @@ public class Logout extends HttpServlet
 		if (user!=null)
 		{
 			session.setAttribute("user",null);
+			session.setAttribute("action", "LogOut");
             response.sendRedirect("menu");
 		}
 	}

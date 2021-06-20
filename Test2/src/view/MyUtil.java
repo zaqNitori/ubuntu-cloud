@@ -8,7 +8,7 @@ public class MyUtil
 	{
 		pw.println("<html><head>");
 		pw.println("<content=\"text/html; charset=Big5\">");
-		pw.println("<title>Electric Commercial</title>");
+		pw.println("<title>Library</title>");
 		pw.println("<script language=javascript>");
 		pw.println("function checkDel(url) {if (confirm('Sure, y/n ?')) { location.href=url; } }");
 		pw.println("function checkString(s1,s2) { if ((s1==\"\")||(s2==\"\")) {alert(\"Please fill complete\"); return false;}} ");
@@ -41,5 +41,12 @@ public class MyUtil
 		pw.println("<td width = 100>" + s2 + "</td>");
 		pw.println("<td width = 100>" + s3 + "</td>");
 		pw.println("</tr>");
+	}
+	
+	public static void printAlert(PrintWriter pw, String str)
+	{
+		pw.println("<script language=javascript>");
+		pw.println("alert(\"" + str + "\");");
+		pw.println("</script></head>");
 	}
 }

@@ -58,6 +58,7 @@ public class Login extends HttpServlet
 		{
 			pw.println("name:" + userName + ", password:" + userPasswd);
 			session.setAttribute("user", userName);
+			session.setAttribute("action", "Login");
 			response.sendRedirect("menu");
 		}
 		else 

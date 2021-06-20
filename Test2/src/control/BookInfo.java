@@ -1,8 +1,10 @@
 package control;
 
 import java.io.*;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.*;
-import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,7 +36,15 @@ public class BookInfo extends HttpServlet
 		PrintWriter pw = response.getWriter();
 		MyUtil.printHead(pw);
 		HttpSession session = request.getSession(true);
-		pw.println(request.getParameter("bookname"));
+		String title = "";
+		try
+		{
+			title = URLDecoder.decode(request.getParameter("bookname"), "UTF-8");
+		}catch(UnsupportedEncodingException e)
+		{
+
+		}
+		pw.println(title);
 		pw.println("</body></html>");
 		pw.close();
 	}

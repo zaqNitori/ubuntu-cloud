@@ -53,7 +53,7 @@ public class Query extends HttpServlet
 		pw.println("Find By ISBN : <input type = text name = isbn><br><br>");
 		pw.println("<br><br><input type = submit onClick=\"return CheckString3(FORM1.title.value, FORM1.author.value, FORM1.isbn.value);\" name=submit value=Submit>");
 		pw.println("</form>");
-		pw.println("<br><br><a href=menu><input type=button value=menu name=B1><br><hr><br>");
+		pw.println("<br><br><a href=menu><input type=button value=menu name=B1></a><br><hr><br>");
 		
 		try {
 			DBCon dbc = new DBCon();
@@ -62,13 +62,15 @@ public class Query extends HttpServlet
 			if(title == "" && author == "" && isbn == "") {
 				//Random display
 			} else {
-				rs = dbc.exec(String.format("select title, authors, average_rating from Book where 1=1%s%s%s;", (title == ""? "":String.format(" and title like '%%%s%%'", title)), (author == ""? "":String.format(" and authors like '%%%s%%'", author)), (isbn == ""? "":String.format(" and ISBN13='%s'", isbn))));
+				rs = dbc.exec(String.format("select title, authors, average_rating, stock from Book where 1=1%s%s%s;", (title == ""? "":String.format(" and title like '%%%s%%'", title)), (author == ""? "":String.format(" and authors like '%%%s%%'", author)), (isbn == ""? "":String.format(" and ISBN13='%s'", isbn))));
 				pw.println("<table><tr>");
 				pw.println("<th width=1000>Title</th>");
 				pw.println("<th width=500>Authors</th>");
-				pw.println("<th width=300 >Ave_Rating</th></tr>");
+				pw.println("<th width=150>Ave_Rating</th>");
+				pw.println("<th width=50>Stock</th></tr>");
 				while(rs.next()) {
-					MyUtil.printRow(pw, rs.getString("title"), rs.getString("author"), rs.getString("average_rating"));
+					MyUtil.printRow(pw, rs.getString("title"), rs.getString("authors"), rs.getString("average_rating"), 
+							rs.getInt("stock"));
 				}
 				pw.println("</table>");
 			}

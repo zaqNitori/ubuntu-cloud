@@ -29,6 +29,9 @@ public class MyUtil
 		pw.println("<content=\"text/html; charset=Big5\">");
 		pw.println("<title>Library</title>");
 		pw.println("<h3>" + name + "</h3>");
+		pw.println("<script language=javascript>");
+		pw.println("function CheckString3(s1, s2, s3) { if ((s1==\"\")||(s2==\"\")||(s3==\"\")) {alert(\"Please fill complete\"); return false;}} ");
+		pw.println("</script></head>");
 		pw.println("</head>");
 		pw.println("<BODY TEXT=#FFFFFF BGCOLOR=#000000>");
 		pw.println("<h3> Welcome To Library </h3>");
@@ -37,9 +40,9 @@ public class MyUtil
 	public static void printRow(PrintWriter pw, String s1, String s2, String s3) 
 	{
 		pw.println("<tr>");
-		pw.println("<td width = 100>" + s1 + "</td>");
-		pw.println("<td width = 100>" + s2 + "</td>");
-		pw.println("<td width = 100>" + s3 + "</td>");
+		pw.println("<td width = 1000><a href=BookInfo?bookname=" + s1 + ">" + s1 + "</td>");
+		pw.println("<td width = 500>" + s2 + "</td>");
+		pw.println("<td width = 300>" + s3 + "</td>");
 		pw.println("</tr>");
 	}
 	

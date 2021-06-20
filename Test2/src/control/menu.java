@@ -77,6 +77,11 @@ public class menu extends HttpServlet
 		if (user==null) response.sendRedirect("Login");
 		else 
 		{
+			DBCon dbc = new DBCon();
+			dbc.connect();
+			int books = dbc.getID(user);
+			session.setAttribute("books", books);
+			
 			pw.println("Hello~ " + user + "<br>");
 			pw.println("<a href=Setting><input type=button value=Setting name=B2><br><br>");
 			pw.println("<a href=Query><input type=button value=Query name=B1><br><br>");

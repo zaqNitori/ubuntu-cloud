@@ -34,7 +34,7 @@ public class Login extends HttpServlet
 		PrintWriter pw = response.getWriter();
 		MyUtil.printHead(pw);
 		HttpSession session = request.getSession(true);
-
+		session.setAttribute("name", "12345");
 		if((String)session.getAttribute("action") == "Register")
 			MyUtil.printAlert(pw, "Register Success!");
 		else if((String)session.getAttribute("action") == "error")

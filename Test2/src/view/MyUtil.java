@@ -8,7 +8,7 @@ public class MyUtil
 	{
 		pw.println("<html><head>");
 		pw.println("<content=\"text/html; charset=Big5\">");
-		pw.println("<title>Electric Commercial</title>");
+		pw.println("<title>Library</title>");
 		pw.println("<script language=javascript>");
 		pw.println("function checkDel(url) {if (confirm('Sure, y/n ?')) { location.href=url; } }");
 		pw.println("function checkString(s1,s2) { if ((s1==\"\")||(s2==\"\")) {alert(\"Please fill complete\"); return false;}} ");
@@ -43,7 +43,8 @@ public class MyUtil
 		pw.println("</tr>");
 	}
 	
-	public static void PrintRegisterHead(PrintWriter pw) {
+	public static void PrintRegisterHead(PrintWriter pw) 
+	{
 		pw.println("<html><head>");
 		pw.println("<content=\"text/html; charset=Big5\">");
 		pw.println("<title>Library</title>");

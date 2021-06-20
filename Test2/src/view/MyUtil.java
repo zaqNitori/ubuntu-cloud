@@ -43,6 +43,16 @@ public class MyUtil
 		pw.println("</tr>");
 	}
 	
+	public static void printRow4(PrintWriter pw, String s1, String s2, String s3, String s4) 
+	{
+		pw.println("<tr>");
+		pw.println("<td width = 200>" + s1 + "</td>");
+		pw.println("<td width = 200>" + s2 + "</td>");
+		pw.println("<td width = 200>" + s3 + "</td>");
+		pw.println("<td width = 100>" + s4 + "</td>");
+		pw.println("</tr>");
+	}
+	
 	public static void PrintRegisterHead(PrintWriter pw) 
 	{
 		pw.println("<html><head>");

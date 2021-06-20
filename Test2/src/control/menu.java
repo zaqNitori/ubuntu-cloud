@@ -45,7 +45,10 @@ public class menu extends HttpServlet
 		{
 			MyUtil.printHead(pw);
 			if(session.getAttribute("action") == "LogOut")
+			{
 				MyUtil.printAlert(pw, "LogOut Successfully!");
+				session.setAttribute("action", "");
+			}
 			pw.println("<a href=Login><input type=button value=Login name=B1><br><br>");
 			pw.println("<a href=Register><input type=button value=Register name=B2><br><br>");
 			pw.close();

@@ -58,15 +58,14 @@ public class Query extends HttpServlet
 		PrintWriter pw = response.getWriter();
 		String usrName = (String)session.getAttribute("user");
 		MyUtil.printMemberHead(pw, usrName);
-		if (usrName == null) response.sendRedirect("Login");
+		if (usrName == null)
+		{
+			session.setAttribute("action","query");
+			response.sendRedirect("Login");
+		}
 		else 
 		{
-			pw.println("<form action = QueryResult.jsp method=POST name=FORM1>");
-			pw.println("Query Title : <input type = text name = title><br><br>");
-			pw.println("<br><br><input type = submit onClick=\"return checkOneStr(FORM1.title.value);\" name=submit value=Submit>");
-			pw.println("</form>");
-			pw.println("<br><br><a href=menu><input type=button value=menu name=B1><br>");
-			pw.println("</body></html>");
+			
 		}
 	}
 

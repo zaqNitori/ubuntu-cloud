@@ -34,17 +34,25 @@ public class Login extends HttpServlet
 		PrintWriter pw = response.getWriter();
 		MyUtil.printHead(pw);
 		HttpSession session = request.getSession(true);
+
 		if((String)session.getAttribute("action") == "Register")
 			MyUtil.printAlert(pw, "Register Success!");
 		else if((String)session.getAttribute("action") == "error")
 			MyUtil.printAlert(pw, "Invalid Account or Password!");
+		//else if((String)session.getAttribute("action") == "setting")
+		else if((String)session.getAttribute("action") == "setting"
+				|| (String)session.getAttribute("action") == "query")
+			MyUtil.printAlert(pw, "Login First!!");
 			
+		session.setAttribute("action", "");
 		pw.println("<form action = Login method=POST name=FORM1>");
 		pw.println("name : <input type = text name = name><br><br>");
 		pw.println("passwd: <input type = password name = passwd><br><br>");
 		pw.println("<br><br><input type = submit onClick=\"return checkString(FORM1.name.value, FORM1.passwd.value);\"style=width:60 value =Ok>");
 		pw.println("</form>");
 		pw.println("</body></html>");
+		pw.println("<a href=Register><input type=button value=Register name=B1><br><br>");
+		pw.println("<a href=menu><input type=button value=menu name=B1><br><br>");
 		pw.close();
 	}
 	

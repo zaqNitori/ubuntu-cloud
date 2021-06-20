@@ -94,10 +94,10 @@ public class Query extends HttpServlet
 		PrintWriter pw = response.getWriter();
 		String usrName = (String)session.getAttribute("user");
 		MyUtil.printMemberHead(pw, usrName);
-		if (usrName == null) response.sendRedirect("Login");
-		else 
+		if (usrName == null)
 		{
-			
+			session.setAttribute("action","query");
+			response.sendRedirect("Login");
 		}
 	}
 

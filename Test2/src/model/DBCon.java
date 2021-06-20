@@ -129,6 +129,30 @@ public class DBCon
 		return rs;
 	}
 	
+	public int getID(String user)
+	{
+		ResultSet hrs;
+		DBCon dbc = new DBCon();
+		dbc.connect();
+		hrs = dbc.exec(String.format("Select * from User where account='%s'", user));
+
+		try
+		{
+			if(hrs.next())
+				return Integer.valueOf(hrs.getString("id"));
+			else
+				return -1;
+		}
+		catch(SQLException ex)
+		{
+			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println("SQLState: " + ex.getSQLState());
+			System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		dbc.close();
+		return -1;
+	}
+	
 	public static void test(String name, String passwd) 
 	{
 		DBCon dbc = new DBCon();

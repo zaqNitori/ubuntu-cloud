@@ -31,11 +31,15 @@ public class Register extends HttpServlet
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		// TODO Auto-generated method stub
+		HttpSession session = request.getSession(true);
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		response.setLocale(new Locale(new String("zh"), new String("TW")));
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
 		MyUtil.PrintRegisterHead(pw);
+		if((String)session.getAttribute("action") == "error")
+			MyUtil.printAlert(pw, "Account has already been used!");
+		
 		pw.println("<form action = Register method = POST name = RegisterForm>");
 		pw.println("Account: <input type = text name = account><br><br>");
 		pw.println("Password: <input type = password name = password><br><br>");
@@ -43,6 +47,7 @@ public class Register extends HttpServlet
 		pw.println("<input type = submit onClick = \"return CheckString3(RegisterForm.account.value, RegisterForm.password.value, RegisterForm.email.value);\" style = width:60 value = Submit>");
 		pw.println("</form>");
 		pw.println("</body></html>");
+		pw.println("<a href=menu><input type=button value=menu name=B1><br><br>");
 		pw.close();
 	}
 	
@@ -62,6 +67,7 @@ public class Register extends HttpServlet
 		try {
 			if (rs.next()) 
 			{
+				session.setAttribute("action", "error");
 				response.sendRedirect("Register");
 			}
 			else 

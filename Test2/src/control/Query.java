@@ -35,13 +35,14 @@ public class Query extends HttpServlet
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		// TODO Auto-generated method stub
-		HttpSession session = request.getSession(true);
+		/*HttpSession session = request.getSession(true);
 		response.setLocale(new Locale(new String("zh"), new String("TW")));
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
 		String usrName = (String)session.getAttribute("user");
 		MyUtil.printMemberHead(pw, usrName);
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.getWriter().append("Served at: ").append(request.getContextPath());*/
+		doPost(request,response);
 	}
 
 	/**

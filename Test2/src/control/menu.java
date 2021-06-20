@@ -35,7 +35,24 @@ public class menu extends HttpServlet
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		HttpSession session = request.getSession(true);
+		String user = (String)session.getAttribute("user");
+		PrintWriter pw = response.getWriter();
+		//pw.append("Served at: ").append(request.getContextPath());
+		response.setLocale(new Locale(new String("zh"), new String("TW")));
+		response.setContentType("text/html");
+		if(user == null)
+		{
+			MyUtil.printHead(pw);
+			pw.println("<a href=Login><input type=button value=Login name=B1><br><br>");
+			pw.println("<a href=SignUp><input type=button value=SignUp name=B2><br><br>");
+			pw.close();
+		}
+		else
+		{
+			session.setAttribute("user", user);
+			doPost(request, response);
+		}
 	}
 
 	/**
@@ -49,15 +66,16 @@ public class menu extends HttpServlet
 		response.setLocale(new Locale(new String("zh"), new String("TW")));
 		response.setContentType("text/html");
 		PrintWriter pw = response.getWriter();
-		MyUtil.printHead(pw);
 		String user = (String)session.getAttribute("user");
-		
+		MyUtil.printMemberHead(pw, user);
+
 		if (user==null) response.sendRedirect("Login");
 		else 
 		{
 			pw.println("Hello~ " + user + "<br>");
+			pw.println("<a href=Setting><input type=button value=Setting name=B2><br><br>");
 			pw.println("<a href=Query><input type=button value=Query name=B1><br><br>");
-			pw.println("<a href=Shopping><input type=button value=Shopping name=B2><br><br>");
+			pw.println("<a href=Logout><input type=button value=Logout name=B1><br><br>");
 		}
 	}
 

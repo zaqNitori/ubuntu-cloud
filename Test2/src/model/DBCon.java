@@ -36,8 +36,8 @@ public class DBCon
 		try 
 		{
 			Class.forName(jdbcName); //頛jdbc撽����
-			//con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library?" + "user=107590026&password=zaq78963"); //撽���恣��嚗��ysql��蝺�
-			con = DriverManager.getConnection("jdbc:mysql://140.124.184.211/library?" + "user=107590026&password=zaq78963");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library?" + "user=107590026&password=zaq78963"); //撽���恣��嚗��ysql��蝺�
+			//con = DriverManager.getConnection("jdbc:mysql://140.124.184.211/library?" + "user=107590026&password=zaq78963");
 		}catch (Exception e) 
 		{
 			e.printStackTrace();

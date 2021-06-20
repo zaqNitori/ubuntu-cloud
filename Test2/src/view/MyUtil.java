@@ -43,6 +43,18 @@ public class MyUtil
 		pw.println("</tr>");
 	}
 	
+	public static void PrintRegisterHead(PrintWriter pw) 
+	{
+		pw.println("<html><head>");
+		pw.println("<content=\"text/html; charset=Big5\">");
+		pw.println("<title>Library</title>");
+		pw.println("<script language=javascript>");
+		pw.println("function CheckString3(s1, s2, s3) { if ((s1==\"\")||(s2==\"\")||(s3==\"\")) {alert(\"Please fill complete\"); return false;}} ");
+		pw.println("</script></head>");
+		pw.println("<BODY TEXT=#FFFFFF BGCOLOR=#000000 link=#00FFFF vlink=#CCFF33 alink=#FFCCFF ><font size=2>");
+		pw.println("<h3> Welcome To Library </h3>");
+	}
+	
 	public static void printAlert(PrintWriter pw, String str)
 	{
 		pw.println("<script language=javascript>");

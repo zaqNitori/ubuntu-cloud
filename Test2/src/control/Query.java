@@ -65,7 +65,18 @@ public class Query extends HttpServlet
 		}
 		else 
 		{
+<<<<<<< HEAD
 			
+=======
+			pw.println("<form action = QueryResult.jsp method=POST name=FORM1>");
+			pw.println("Find By Title : <input type = text name = title><br><br>");
+			pw.println("Find By Author : <input type = text name = author><br><br>");
+			pw.println("Find By ISBN : <input type = text name = isbn><br><br>");
+			pw.println("<br><br><input type = submit onClick=\"return checkOneStr(FORM1.title.value);\" name=submit value=Submit>");
+			pw.println("</form>");
+			pw.println("<br><br><a href=menu><input type=button value=menu name=B1><br>");
+			pw.println("</body></html>");
+>>>>>>> 7d98cfbcfad0113167332d938eccdd13ccfbe659
 		}
 	}
 

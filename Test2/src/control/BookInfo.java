@@ -37,6 +37,7 @@ public class BookInfo extends HttpServlet
 		MyUtil.printHead(pw);
 		HttpSession session = request.getSession(true);
 		String title = "";
+		pw.println("<a href=Query><input type=button value=Query name=B1><br><br>");
 		try
 		{
 			title = URLDecoder.decode(request.getParameter("bookname"), "UTF-8");

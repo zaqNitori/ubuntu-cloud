@@ -36,6 +36,7 @@ public class MyUtil
 		pw.println("function CheckString7(s1, s2, s3, s4, s5, s6, s7) {");
 		pw.println("if(s1==\"\" || s2==\"\" || s3==\"\" || s4==\"\" || s5==\"\" || s6==\"\" || s7==\"\") {");
 		pw.println("alert(\\\"Please fill complete\\\"); return false;}}");
+		pw.println("function checkBooks(n) { if(n < 5) alert(\"Borrow Successfully\"); else alert(\"You already borrow 5 books\")");
 		pw.println("</script></head>");
 		pw.println("</head>");
 		pw.println("<BODY TEXT=#FFFFFF BGCOLOR=#000000>");
@@ -58,6 +59,8 @@ public class MyUtil
 		pw.println("<td width = 500>" + s2 + "</td>");
 		pw.println("<td width = 150>" + s3 + "</td>");
 		pw.println("<td width = 50>" + String.valueOf(stock) + "</td>");
+		if(stock > 0)
+			pw.println("<td width = 100><input type = submit onClick=\"return checkBooks();\"></td>");    
 		pw.println("</tr>");
 	}
 	

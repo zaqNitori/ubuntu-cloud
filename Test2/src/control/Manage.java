@@ -89,11 +89,11 @@ public class Manage extends HttpServlet
 			String isbn = request.getParameter("isbn");
 			String title = request.getParameter("title");
 			String authors = request.getParameter("authors");
-			String number = request.getParameter("number");
+			int number = request.getParameter("number");
 			Date date = request.getParameter("date");
 			Double ave_rating = request.getParameter("ave_rating");
 			int rating_count = request.getParameter("rating_count");
-			dbc.update(String.format("insert into Book (ISBN13, title, authors, num_page, publication, average_rating, ratings_count)", isbn, title, authors, number, date, ave_rating, rating_count));
+			dbc.update(String.format("insert into Book (ISBN13, title, authors, num_page, publication, average_rating, ratings_count) values('%s', '%s', '%s', '%d', '%s', '%f', '%d')", isbn, title, authors, number, date, ave_rating, rating_count));
 			session.setAttribute("action", "Insert Success");
 			response.sendRedirect("Manage");
 		} else {

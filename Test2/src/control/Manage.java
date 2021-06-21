@@ -3,6 +3,7 @@ package control;
 import java.io.*;
 import java.util.*;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -94,6 +95,7 @@ public class Manage extends HttpServlet
 		String user = (String)session.getAttribute("user");
 		//MyUtil.printMemberHead(pw, user);
 		String isbn_delete = request.getParameter("isbn_delete");
+		ResultSet rs;
 		DBCon dbc = new DBCon();
 		dbc.connect();
 		

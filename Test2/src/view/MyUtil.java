@@ -43,7 +43,7 @@ public class MyUtil
 		pw.println("<h3> Welcome To Library </h3>");
 	}
 	
-	public static void printRow(PrintWriter pw, String s1, String s2, String s3, int stock) 
+	public static void printRow(PrintWriter pw, String s1, String s2, String s3) 
 	{
 		String url="";
 		try
@@ -53,14 +53,15 @@ public class MyUtil
 		{
 
 		}
-		
 		pw.println("<tr>");
 		pw.println("<td width = 1000><a href=BookInfo?bookname=" + url + " />" + s1 + "</td>");
 		pw.println("<td width = 500>" + s2 + "</td>");
 		pw.println("<td width = 150>" + s3 + "</td>");
-		pw.println("<td width = 50>" + String.valueOf(stock) + "</td>");
-		if(stock > 0)
-			pw.println("<td width = 100><input type=button value=Borrow name=borrow></td>");    
+		
+	}
+	
+	public static void endprintRow(PrintWriter pw)
+	{
 		pw.println("</tr>");
 	}
 	

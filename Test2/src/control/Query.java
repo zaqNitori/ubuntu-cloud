@@ -46,6 +46,22 @@ public class Query extends HttpServlet
 		String isbn = request.getParameter("isbn");
 		
 		PrintWriter pw = response.getWriter();
+		
+		if(request.getParameter("action") == "borrow")
+		{
+			int number = Integer.valueOf((String)session.getAttribute("number"));
+			if(number > 4)
+				MyUtil.printAlert(pw, "You already borrow 5 books!!");
+			else
+			{
+				DBCon dbc = new DBCon();
+				ResultSet rs;
+				dbc.connect();
+				dbc.update(String.format("Update from Book set stock=stock - 1 where title = '%%%s%%';",title));
+				dbc.exec(String.format("Insert into UserBook (UserID,ISBN13) values (%d,'%s');)",1,'1'));
+			}
+		}
+		
 		MyUtil.printMemberHead(pw, user);
 		pw.println("<form action = Query method=GET name=FORM1>");
 		pw.println("Find By Title : <input type = text name = title><br><br>");
@@ -56,6 +72,7 @@ public class Query extends HttpServlet
 		pw.println("<br><br><a href=menu><input type=button value=menu name=B1></a><br><hr><br>");
 		
 		try {
+			int stock;
 			DBCon dbc = new DBCon();
 			ResultSet rs;
 			dbc.connect();
@@ -69,8 +86,17 @@ public class Query extends HttpServlet
 				pw.println("<th width=150>Ave_Rating</th>");
 				pw.println("<th width=50>Stock</th></tr>");
 				while(rs.next()) {
-					MyUtil.printRow(pw, rs.getString("title"), rs.getString("authors"), rs.getString("average_rating"), 
-							rs.getInt("stock"));
+					MyUtil.printRow(pw, rs.getString("title"), rs.getString("authors"), rs.getString("average_rating"));
+					stock = rs.getInt("stock");
+					pw.println("<td width = 50>" + String.valueOf(stock) + "</td>");
+					if(stock > 0)
+					{
+						pw.println("<a href=Query?action=borrow&title=\"" + rs.getString("title")
+						+ "\"&author=\"" + rs.getString("authors") 
+						+ "\"&isbn=\"" + isbn +"\"&submit=Submit>");
+						pw.println("<td width = 100><input type=button value=Borrow name=borrow></td>");  
+						pw.println("</a>");
+					}
 				}
 				pw.println("</table>");
 			}

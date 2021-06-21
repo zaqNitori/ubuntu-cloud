@@ -60,7 +60,7 @@ public class MyUtil
 		pw.println("<td width = 150>" + s3 + "</td>");
 		pw.println("<td width = 50>" + String.valueOf(stock) + "</td>");
 		if(stock > 0)
-			pw.println("<td width = 100><input type = submit onClick=\"return checkBooks();\"></td>");    
+			pw.println("<td width = 100><input type=button value=Borrow name=borrow></td>");    
 		pw.println("</tr>");
 	}
 	

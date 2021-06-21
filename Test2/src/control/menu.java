@@ -2,6 +2,8 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Locale;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -73,18 +75,49 @@ public class menu extends HttpServlet
 		PrintWriter pw = response.getWriter();
 		String user = (String)session.getAttribute("user");
 		MyUtil.printMemberHead(pw, user);
+		int privilege = 0;
 
 		if (user==null) response.sendRedirect("Login");
 		else 
 		{
+			ResultSet rs;
 			DBCon dbc = new DBCon();
 			dbc.connect();
-			int books = dbc.getID(user);
-			session.setAttribute("books", books);
+			int id = dbc.getID(user);
+			rs = dbc.exec(String.format("select privilege as pri from User where id=%d", id));
+			try
+            {
+                if(rs.next())
+                {
+                	privilege = rs.getInt("pri");
+                }
+            }
+            catch(SQLException ex)
+            {
+                System.out.println("SQLException: " + ex.getMessage());
+                System.out.println("SQLState: " + ex.getSQLState());
+                System.out.println("VendorError: " + ex.getErrorCode());
+            }
+			rs = dbc.exec(String.format("select count(*) as number from UserBook where UserID=%d", id));
+			try
+            {
+                if(rs.next())
+                {
+                	session.setAttribute("number", rs.getInt("number"));
+                }
+            }
+            catch(SQLException ex)
+            {
+                System.out.println("SQLException: " + ex.getMessage());
+                System.out.println("SQLState: " + ex.getSQLState());
+                System.out.println("VendorError: " + ex.getErrorCode());
+            }
 			
 			pw.println("Hello~ " + user + "<br>");
 			pw.println("<a href=Setting><input type=button value=Setting name=B2><br><br>");
 			pw.println("<a href=Query><input type=button value=Query name=B1><br><br>");
+			if(privilege == 10)
+				pw.println("<a href=Manage><input type=button value=Manage name=B1><br><br>");
 			pw.println("<a href=Logout><input type=button value=Logout name=B1><br><br>");
 		}
 	}

@@ -61,13 +61,13 @@ public class Manage extends HttpServlet
 			pw.println("</form>");
 		}else {
 			pw.println("<a href=Manage?action=Insert>");
-			pw.println("<input type = submit style = width:100 value = \"Add New Book\"");
+			pw.println("<input type = submit style = width:100 value = \"Add New Book\">");
 			pw.println("</a><br><br>");
 			pw.println("<a href=Manage?action=Delete>");
-			pw.println("<input type = submit style = width:100 value = \"Delete a Book\"");
+			pw.println("<input type = submit style = width:100 value = \"Delete a Book\">");
 			pw.println("</a><br><br>");
 			pw.println("<a href=menu>");
-			pw.println("<input type = submit style = width:100 value = \"Back to Menu\"");
+			pw.println("<input type = submit style = width:100 value = \"Back to Menu\">");
 			pw.println("</a>");
 		}
 		pw.close();

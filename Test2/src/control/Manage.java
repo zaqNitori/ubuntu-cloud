@@ -45,6 +45,8 @@ public class Manage extends HttpServlet
 			MyUtil.printAlert(pw, "Insert Success");
 		else if(session.getAttribute("action") == "Delete Success")
 			MyUtil.printAlert(pw, "Delete Success");
+		else if(session.getAttribute("action") == "Borrowing")
+			MyUtil.printAlert(pw, "Delete Failed. Somone is Borrowing This Book.");
 		
 		session.setAttribute("action", "");
 		
@@ -56,6 +58,9 @@ public class Manage extends HttpServlet
 			pw.println("<a href=Manage?action=Delete>");
 			pw.println("<input type = submit style = width:100 value = \"Delete a Book\">");
 			pw.println("</a><br><br>");
+			pw.println("<a href=menu>");
+			pw.println("<input type = submit style = width:100 value = \"Back to Menu\">");
+			pw.println("</a>");
 		}
 		else
 		{
@@ -76,13 +81,13 @@ public class Manage extends HttpServlet
 			{
 				pw.println("<form action = Manage method = POST name = DELETE>");
 				pw.println("ISBN: <input type = text name = isbn_delete required><br><br>");
-				pw.println("<input type = submit style = width:100 value = Delete>");
+				pw.println("<input type = submit style = width:100 value = DELETE>");
 				pw.println("</form>");
 			}
 		}
 		pw.println("<a href=menu>");
 		pw.println("<input type = button style = width:100 value = \"Back to Menu\">");
-		pw.println("</a>");
+		pw.println("</a></body></html>");
 		pw.close();
 	}
 	
@@ -124,8 +129,14 @@ public class Manage extends HttpServlet
 			session.setAttribute("action", "Insert Success");
 			response.sendRedirect("Manage");
 		} else {
-			dbc.update(String.format("delete from Book where ISBN13 = '%s'", isbn_delete));
-			session.setAttribute("action", "Delete Success");
+			boolean isBorrowing = dbc.exec(String.format("select * from UserBook where ISBN = '%s'", isbn_delete)).next();
+			if(isBorrowing) {
+				session.setAttribute("action", "Borrowing");
+			}				
+			else {
+				dbc.update(String.format("delete from Book where ISBN13 = '%s'", isbn_delete));
+				session.setAttribute("action", "Delete Success");
+			}
 			response.sendRedirect("Manage");
 		}
 		//pw.close(); 

@@ -41,10 +41,10 @@ public class Register extends HttpServlet
 			MyUtil.printAlert(pw, "Account has already been used!");
 		
 		pw.println("<form action = Register method = POST name = RegisterForm>");
-		pw.println("Account: <input type = text name = account><br><br>");
-		pw.println("Password: <input type = password name = password><br><br>");
-		pw.println("E-mail: <input type = text name = email><br><br>");
-		pw.println("<input type = submit onClick = \"return CheckString3(RegisterForm.account.value, RegisterForm.password.value, RegisterForm.email.value);\" style = width:60 value = Submit>");
+		pw.println("Account: <input type = text name = account required><br><br>");
+		pw.println("Password: <input type = password name = password required><br><br>");
+		pw.println("E-mail: <input type = text name = email required><br><br>");
+		pw.println("<input type = submit style = width:60 value = Submit>");
 		pw.println("</form>");
 		pw.println("</body></html>");
 		pw.println("<a href=menu><input type=button value=menu name=B1><br><br>");

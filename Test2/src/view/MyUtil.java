@@ -31,11 +31,7 @@ public class MyUtil
 		pw.println("<title>Library</title>");
 		pw.println("<h3>" + name + "</h3>");
 		pw.println("<script language=javascript>");
-		pw.println("function checkOneStr(s1) { if (s1==\"\") { alert(\"Please fill complete\"); return false; } } ");
 		pw.println("function CheckString3(s1, s2, s3) { if ((s1==\"\")&&(s2==\"\")&&(s3==\"\")) {alert(\"Please fill complete\"); return false;}} ");
-		pw.println("function CheckString7(s1, s2, s3, s4, s5, s6, s7) {");
-		pw.println("if(s1==\"\" || s2==\"\" || s3==\"\" || s4==\"\" || s5==\"\" || s6==\"\" || s7==\"\") {");
-		pw.println("alert(\\\"Please fill complete\\\"); return false;}}");
 		pw.println("function checkBooks(n) { if(n < 5) alert(\"Borrow Successfully\"); else alert(\"You already borrow 5 books\")");
 		pw.println("</script></head>");
 		pw.println("</head>");

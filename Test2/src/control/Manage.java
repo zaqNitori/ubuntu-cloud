@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,9 +59,6 @@ public class Manage extends HttpServlet
 			pw.println("<a href=Manage?action=Delete>");
 			pw.println("<input type = submit style = width:100 value = \"Delete a Book\">");
 			pw.println("</a><br><br>");
-			pw.println("<a href=menu>");
-			pw.println("<input type = submit style = width:100 value = \"Back to Menu\">");
-			pw.println("</a>");
 		}
 		else
 		{
@@ -129,15 +127,28 @@ public class Manage extends HttpServlet
 			session.setAttribute("action", "Insert Success");
 			response.sendRedirect("Manage");
 		} else {
-			boolean isBorrowing = dbc.exec(String.format("select * from UserBook where ISBN = '%s'", isbn_delete)).next();
-			if(isBorrowing) {
-				session.setAttribute("action", "Borrowing");
-			}				
-			else {
-				dbc.update(String.format("delete from Book where ISBN13 = '%s'", isbn_delete));
-				session.setAttribute("action", "Delete Success");
-			}
-			response.sendRedirect("Manage");
+			rs = dbc.exec(String.format("select * from UserBook where ISBN13 = '%s'", isbn_delete));
+			try
+			{
+				if(rs.next()) 
+				{
+					session.setAttribute("action", "Borrowing");
+				}				
+				else {
+					dbc.update(String.format("delete from Book where ISBN13 = '%s'", isbn_delete));
+					session.setAttribute("action", "Delete Success");
+				}
+				response.sendRedirect("Manage");
+			}catch(SQLException ex)
+            {
+                System.out.println("SQLException: " + ex.getMessage());
+                System.out.println("SQLState: " + ex.getSQLState());
+                System.out.println("VendorError: " + ex.getErrorCode());
+            }
+			catch(NullPointerException ex)
+            {
+                System.out.println("SQLException: " + ex.getMessage());
+            }
 		}
 		//pw.close(); 
 		dbc.close();

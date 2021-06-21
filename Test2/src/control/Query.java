@@ -37,29 +37,37 @@ public class Query extends HttpServlet
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		HttpSession session = request.getSession(true);
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		response.setLocale(new Locale(new String("zh"), new String("TW")));
 		response.setContentType("text/html");
 		String user = (String)session.getAttribute("user");
 		String title = request.getParameter("title");
 		String author = request.getParameter("author");
 		String isbn = request.getParameter("isbn");
-		
+		String action = request.getParameter("action");
+		String url = String.format("title=%s&author=%s&isbn=%s&submit=Submit", title, author, isbn);
 		PrintWriter pw = response.getWriter();
 		
-		if(request.getParameter("action") == "borrow")
+		if(action != null)
 		{
-			int number = Integer.valueOf((String)session.getAttribute("number"));
-			if(number > 4)
-				MyUtil.printAlert(pw, "You already borrow 5 books!!");
-			else
+			System.out.println(request.getParameter("action"));
+			if(action.matches("borrow"))
 			{
-				DBCon dbc = new DBCon();
-				ResultSet rs;
-				dbc.connect();
-				dbc.update(String.format("Update from Book set stock=stock - 1 where title = '%%%s%%';",title));
-				dbc.exec(String.format("Insert into UserBook (UserID,ISBN13) values (%d,'%s');)",1,'1'));
+				int number = (int)session.getAttribute("number");
+				if(number > 4)
+					MyUtil.printAlert(pw, "You already borrow 5 books!!");
+				else
+				{
+					DBCon dbc = new DBCon();
+					ResultSet rs;
+					dbc.connect();
+					//dbc.update(String.format("Update from Book set stock=stock - 1 where title = '%%%s%%';",title));
+					//dbc.update(String.format("Insert into UserBook (UserID,ISBN13) values (%d,'%s');)",1,'1'));
+					response.sendRedirect("Query?action=borrowOK&" + url);
+				}
 			}
+			else if(action.matches("borrowOK"))
+				MyUtil.printAlert(pw, "Borrow Successfully!");
 		}
 		
 		MyUtil.printMemberHead(pw, user);
@@ -91,12 +99,11 @@ public class Query extends HttpServlet
 					pw.println("<td width = 50>" + String.valueOf(stock) + "</td>");
 					if(stock > 0)
 					{
-						pw.println("<a href=Query?action=borrow&title=\"" + rs.getString("title")
-						+ "\"&author=\"" + rs.getString("authors") 
-						+ "\"&isbn=\"" + isbn +"\"&submit=Submit>");
-						pw.println("<td width = 100><input type=button value=Borrow name=borrow></td>");  
-						pw.println("</a>");
+						pw.println("<td width = 100>");
+						pw.println("<a href=Query?action=borrow&" + url + "><input type=button value=Borrow name=borrow>");
+						pw.println("</td>");  
 					}
+					MyUtil.endprintRow(pw);
 				}
 				pw.println("</table>");
 			}

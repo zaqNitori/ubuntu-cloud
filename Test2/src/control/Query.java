@@ -50,19 +50,21 @@ public class Query extends HttpServlet
 		
 		if(action != null)
 		{
-			System.out.println(request.getParameter("action"));
 			if(action.matches("borrow"))
 			{
 				int number = (int)session.getAttribute("number");
+				int id = (int)session.getAttribute("UserID");
 				if(number > 4)
 					MyUtil.printAlert(pw, "You already borrow 5 books!!");
 				else
 				{
+					String isbn13 = request.getParameter("ISBN13");
 					DBCon dbc = new DBCon();
 					ResultSet rs;
 					dbc.connect();
-					//dbc.update(String.format("Update from Book set stock=stock - 1 where title = '%%%s%%';",title));
-					//dbc.update(String.format("Insert into UserBook (UserID,ISBN13) values (%d,'%s');)",1,'1'));
+					dbc.update(String.format("Update Book set stock=(stock-1) where ISBN13='%s'", isbn13));
+					dbc.update(String.format("Insert into UserBook (UserID,ISBN13) values (%d,'%s');",id, isbn13));
+					dbc.update(String.format("update UserBook set returnDate=DATE_ADD(borrowDate,INTERVAL 30 DAY) where ISBN13='%s';",isbn13));
 					response.sendRedirect("Query?action=borrowOK&" + url);
 				}
 			}
@@ -87,7 +89,7 @@ public class Query extends HttpServlet
 			if(title == "" && author == "" && isbn == "") {
 				//Random display
 			} else {
-				rs = dbc.exec(String.format("select title, authors, average_rating, stock from Book where 1=1%s%s%s;", (title == ""? "":String.format(" and title like '%%%s%%'", title)), (author == ""? "":String.format(" and authors like '%%%s%%'", author)), (isbn == ""? "":String.format(" and ISBN13='%s'", isbn))));
+				rs = dbc.exec(String.format("select * from Book where 1=1%s%s%s;", (title == ""? "":String.format(" and title like '%%%s%%'", title)), (author == ""? "":String.format(" and authors like '%%%s%%'", author)), (isbn == ""? "":String.format(" and ISBN13='%s'", isbn))));
 				pw.println("<table><tr>");
 				pw.println("<th width=1000>Title</th>");
 				pw.println("<th width=500>Authors</th>");
@@ -100,6 +102,7 @@ public class Query extends HttpServlet
 					if(stock > 0)
 					{
 						pw.println("<td width = 100>");
+						url += "&ISBN13=" + rs.getString("ISBN13");
 						pw.println("<a href=Query?action=borrow&" + url + "><input type=button value=Borrow name=borrow>");
 						pw.println("</td>");  
 					}

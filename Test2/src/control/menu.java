@@ -104,7 +104,7 @@ public class menu extends HttpServlet
                 if(rs.next())
                 {
                 	session.setAttribute("number", rs.getInt("number"));
-                	System.out.println(rs.getInt("number"));
+                	session.setAttribute("UserID", id);
                 }
             }
             catch(SQLException ex)

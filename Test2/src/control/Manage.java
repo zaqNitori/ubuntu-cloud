@@ -66,6 +66,9 @@ public class Manage extends HttpServlet
 			pw.println("<a href=Manage?action=Delete>");
 			pw.println("<input type = submit style = width:100 value = \"Delete a Book\"");
 			pw.println("</a>");
+			pw.println("<a href=menu>");
+			pw.println("<input type = submit style = width:100 value = \"Back to Menu\"");
+			pw.println("</a>");
 		}
 		pw.close();
 	}

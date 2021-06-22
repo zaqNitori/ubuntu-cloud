@@ -2,6 +2,9 @@ package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Locale;
@@ -37,6 +40,37 @@ public class Setting extends HttpServlet
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		// TODO Auto-generated method stub
+		HttpSession session = request.getSession(true);
+		PrintWriter pw = response.getWriter();
+		String action = request.getParameter("action");
+		ResultSet rs;
+		if(action != null)
+		{
+			DBCon dbc = new DBCon();
+			dbc.connect();
+			int id = (int)session.getAttribute("UserID");
+			String isbn=request.getParameter("isbn");
+			if(action.matches("renew"))
+			{
+				dbc.update(String.format("Update UserBook set returnDate=DATE_ADD(returnDate,INTERVAL 30 DAY) where ISBN13='%s'", isbn));
+				dbc.update(String.format("Update UserBook set renew_count=renew_count+1 where ISBN13='%s'", isbn));
+				response.sendRedirect("Setting?action=renewOK");
+			}
+			else if(action.matches("return"))
+			{
+				dbc.update(String.format("Delete from UserBook where ISBN13='%s'", isbn));
+				dbc.update(String.format("Update Book set stock=stock+1 where ISBN13='%s'", isbn));
+				response.sendRedirect("Setting?action=returnOK");
+			}
+			else if(action.matches("renewOK"))
+			{
+				MyUtil.printAlert(pw, "Renew Successfully");
+			}
+			else if(action.matches("returnOK"))
+			{
+				MyUtil.printAlert(pw, "Return Successfully");
+			}
+		}
 		doPost(request, response);
 	}
 
@@ -62,7 +96,7 @@ public class Setting extends HttpServlet
 		}
 
 		pw.println("<p>Hello~ " + user + "</p><br>");
-		pw.println("<a href=menu><input type=button value=menu name=menu><br><br>");
+		pw.println("<a href=menu><input type=button value=menu name=menu></a><br><br>");
 		
 		DBCon dbc = new DBCon();
         dbc.connect();
@@ -72,8 +106,10 @@ public class Setting extends HttpServlet
         rs = dbc.exec(String.format("select * from UserBook where UserID=%d", id));
         try
 		{
+        	pw.println("<h2>Followings are your Borrow BookList!</h2>");
         	pw.println("<table border=\"1\" style=\"margin: 0 auto; text-align: center\">");
         	MyUtil.printRow4(pw, "Title", "borrowDate", "returnDate", "renew_count");
+        	MyUtil.endprintRow(pw);
             while(rs.next())
             {
             	isbn = rs.getString("ISBN13");
@@ -87,6 +123,14 @@ public class Setting extends HttpServlet
                                 , rs.getDate("borrowDate").toString()
                                 , rs.getDate("returnDate").toString()
                                 , rs.getString("renew_count"));
+                    	pw.println("<td width = 100>");
+                    	if(rs.getInt("renew_count") < 2)
+                    		pw.println("<a href=Setting?action=renew&isbn="+ isbn + "><input type=button value=Renew name=Retnew>");
+						pw.println("</td>"); 
+						pw.println("<td width = 100>");
+						pw.println("<a href=Setting?action=return&isbn="+ isbn + "><input type=button value=Return name=Return>");
+						pw.println("</td>"); 
+                    	MyUtil.endprintRow(pw);
                     }
                 }
                 catch(SQLException ex)

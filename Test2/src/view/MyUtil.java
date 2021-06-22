@@ -39,18 +39,10 @@ public class MyUtil
 		pw.println("<h3> Welcome To Library </h3>");
 	}
 	
-	public static void printRow(PrintWriter pw, String s1, String s2, String s3) 
+	public static void printRow(PrintWriter pw, String s1, String s2, String s3, String s4) 
 	{
-		String url="";
-		try
-		{
-			url = URLEncoder.encode(s1, "UTF-8");
-		}catch(UnsupportedEncodingException e)
-		{
-
-		}
 		pw.println("<tr>");
-		pw.println("<td width = 1000><a href=BookInfo?bookname=" + url + " />" + s1 + "</td>");
+		pw.println("<td width = 1000><a style=\"color:yellow;\" href=BookInfo?" + s4 + " />" + s1 + "</td>");
 		pw.println("<td width = 500>" + s2 + "</td>");
 		pw.println("<td width = 150>" + s3 + "</td>");
 		
@@ -68,7 +60,7 @@ public class MyUtil
 		pw.println("<td width = 200>" + s2 + "</td>");
 		pw.println("<td width = 200>" + s3 + "</td>");
 		pw.println("<td width = 100>" + s4 + "</td>");
-		pw.println("</tr>");
+		
 	}
 	
 	public static void PrintRegisterHead(PrintWriter pw) 

@@ -41,20 +41,27 @@ public class BookInfo extends HttpServlet
 		MyUtil.printHead(pw);
 		HttpSession session = request.getSession(true);
 		String title = "";
-		pw.println("<a href=Query><input type=button value=Query name=B1></a><br><br>");
+		String isbn = request.getParameter("ISBN13");
+		String url = String.format("title=%s&author=%s&isbn=%s&submit=Submit"
+				, request.getParameter("title")
+				, request.getParameter("author")
+				, request.getParameter("isbn"));
+		pw.println("<a href=Query?" + url + " ><input type=button value=Query name=B1></a><br><br>");
+
+		ResultSet rs = dbc.exec(String.format("select * from Book where ISBN13='%s'", isbn));
 		try {
-			title = URLDecoder.decode(request.getParameter("bookname"), "UTF-8");
-		}catch(UnsupportedEncodingException e) { }
-		try {
-			ResultSet rs = dbc.exec(String.format("select * from Book where title like '%%%s%%", title));
-			pw.println(String.format("ISBN : %s<br><br>", rs.getString("ISBN13")));
-			pw.println(String.format("Title : %s<br><br>", rs.getString("title")));
-			pw.println(String.format("Authors : %s<br><br>", rs.getString("authors")));
-			pw.println(String.format("Number Of Pages : %s<br><br>", rs.getInt("num_page")));
-			pw.println(String.format("Publication Date : %s<br><br>", rs.getString("publication")));
-			pw.println(String.format("Average Rating : %s<br><br>", rs.getString("average_rating")));
-			pw.println(String.format("Rating Count : %s<br><br>", rs.getString("ratings_count")));
-			pw.println(String.format("Stock : %s<br><br>", rs.getString("stock")));
+			if(rs.next())
+			{
+				System.out.println(isbn);
+				pw.println(String.format("<h1>ISBN : %s</h1><br>", isbn));
+				pw.println(String.format("<h1>Title : %s</h1><br>", rs.getString("title")));
+				pw.println(String.format("<h1>Authors : %s</h1><br>", rs.getString("authors")));
+				pw.println(String.format("<h1>Number Of Pages : %s</h1><br>", rs.getInt("num_page")));
+				pw.println(String.format("<h1>Publication Date : %s</h1><br>", rs.getString("publication")));
+				pw.println(String.format("<h1>Average Rating : %s</h1><br>", rs.getString("average_rating")));
+				pw.println(String.format("<h1>Rating Count : %s</h1><br>", rs.getString("ratings_count")));
+				pw.println(String.format("<h1>Stock : %s</h1><br>", rs.getString("stock")));
+			}
 		} catch(SQLException ex)
         {
             System.out.println("SQLException: " + ex.getMessage());
